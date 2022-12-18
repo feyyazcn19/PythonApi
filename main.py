@@ -8,6 +8,7 @@ app = FastAPI()
 
 from api.resource.ResourceController import ResourceController
 from api.resource.ResourceModel import NewResource
+from api.ai.AiModel import NewAiCommit
 from api.ai.AiController import AiController
 
 
@@ -20,8 +21,8 @@ async def find_resource(search : NewResource):
     return  await (ResourceController.findResource(search.search))
 
 @app.post("/ai/commit")
-def ai_commit():
-    return AiController.getCommit()
+async def ai_commit(question : NewAiCommit):
+    return await (AiController.getCommit(question.question))
 
 
 def custom_openapi():
