@@ -20,6 +20,10 @@ def doc():
 async def find_resource(search : NewResource):
     return  await (ResourceController.findResource(search.search))
 
+@app.post("/find/serper")
+async def find_serper(search : NewResource):
+    return  await (ResourceController.findSerper(search.search))
+
 @app.post("/ai/commit")
 async def ai_commit(question : NewAiCommit):
     return await (AiController.getCommit(question.question))

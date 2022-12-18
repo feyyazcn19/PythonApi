@@ -2,6 +2,8 @@ from main import app
 import os
 import openai
 from .Response import Response
+from decouple import config
+
 
 class AiService:
     def __init__(self):
@@ -9,13 +11,11 @@ class AiService:
 
     @staticmethod
     async def prompt(prompt):
-        openai.api_key = "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"
-        response = Response()
-        response.responseCode=413
-        response.responseMessage="Bu sorunuzu yanıtlayamadım. Fakat hızlı cevap alabilmeniz için alanınız ile ilgilenen hocalarımıza email gönderdik en kısa sürede cevabınızı alacaksınız."
-        
+        openai.api_key = config("API_GPT_KEY")
+        res = Response()
+
         try:
-            response.responseMessage = openai.Completion.create(
+            res.responseMessage = openai.Completion.create(
                 model="text-davinci-003",
                 prompt=prompt,
                 temperature=0.9,
@@ -25,8 +25,10 @@ class AiService:
                 presence_penalty=0.6,
                 stop=[" Human:", " AI:"]
             ).choices[0].text
-            response.responseCode = 200
+            res.responseCode = 200
         except:
             print("error: gpt3")
+            res.responseCode = 413
+            res.responseMessage = "Bu sorunuzu yanıtlayamadım. Fakat hızlı cevap alabilmeniz için alanınız ile ilgilenen hocalarımıza email gönderdik en kısa sürede cevabınızı alacaksınız."
 
-        return response
+        return res
