@@ -1,10 +1,19 @@
 from fastapi import FastAPI,Request
 from fastapi.responses import RedirectResponse
 from fastapi.openapi.utils import get_openapi
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 from typing import Union
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 from api.resource.ResourceController import ResourceController
 from api.resource.ResourceModel import NewResource
