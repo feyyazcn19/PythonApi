@@ -13,13 +13,12 @@ class AiService:
     async def prompt(prompt):
         openai.api_key = config("API_GPT_KEY")
         res = Response()
-
         try:
             res.responseMessage = openai.Completion.create(
                 model="text-davinci-003",
                 prompt=prompt,
                 temperature=0.9,
-                max_tokens=150,
+                max_tokens=225,
                 top_p=1,
                 frequency_penalty=0,
                 presence_penalty=0.6,
