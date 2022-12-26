@@ -11,7 +11,7 @@ class AiService:
 
     @staticmethod
     async def prompt(prompt):
-        openai.api_key = config("API_GPT_KEY")
+        openai.api_key = os.getenv("API_GPT_KEY")
         res = Response()
     
         try:

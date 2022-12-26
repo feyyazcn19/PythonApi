@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 from decouple import config
 from .Response import Response
+import os
 
 
 class Resource:
@@ -42,7 +43,7 @@ class Resource:
                 "autocorrect": True
             })
             headers = {
-                'X-API-KEY': config("API_SERPER_KEY"),
+                'X-API-KEY': os.getenv("API_SERPER_KEY"),
                 'Content-Type': 'application/json'
             }
 

@@ -4,6 +4,7 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 from typing import Union
+import os
 
 app = FastAPI()
 
@@ -55,4 +56,3 @@ def custom_openapi():
 
 
 app.openapi = custom_openapi
-
