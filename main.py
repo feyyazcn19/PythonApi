@@ -21,7 +21,6 @@ from api.resource.ResourceModel import NewResource
 from api.ai.AiModel import NewAiCommit
 from api.ai.AiController import AiController
 
-print(os.getenv("API_GPT_KEY"))
 
 @app.get("/")
 def doc():
