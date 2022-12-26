@@ -8,6 +8,7 @@ app = FastAPI()
 
 from api.resource.ResourceController import ResourceController
 from api.resource.ResourceModel import NewResource
+from api.ai.AiModel import NewAiCommit
 from api.ai.AiController import AiController
 
 
@@ -19,9 +20,13 @@ def doc():
 async def find_resource(search : NewResource):
     return  await (ResourceController.findResource(search.search))
 
+@app.post("/find/serper")
+async def find_serper(search : NewResource):
+    return  await (ResourceController.findSerper(search.search))
+
 @app.post("/ai/commit")
-def ai_commit():
-    return AiController.getCommit()
+async def ai_commit(question : NewAiCommit):
+    return await (AiController.getCommit(question.question))
 
 
 def custom_openapi():
@@ -41,3 +46,4 @@ def custom_openapi():
 
 
 app.openapi = custom_openapi
+

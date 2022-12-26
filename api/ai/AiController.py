@@ -1,7 +1,7 @@
+from .AiService import AiService
+service = AiService()
 
 class AiController:
-    def __init__(self):
-        pass
-    
-    def getCommit():
-        return {"status":True}
+    @staticmethod
+    async def getCommit(prompt):
+       return await (service.prompt(prompt))

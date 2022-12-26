@@ -1,5 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
+import json
+from decouple import config
+from .Response import Response
+
 
 class Resource:
     def __init__(self):
@@ -14,13 +18,41 @@ class Resource:
         firstParameter = "/url?q="
         endParameter = "/&sa="
         links = []
-        
+
         if search != None:
             tags = search.findAll("a")
             for tag in tags:
                 href = tag["href"]
                 if firstParameter in href and endParameter in href:
-                    links.append(href.split(firstParameter)[1].split(endParameter)[0])
+                    links.append(href.split(firstParameter)
+                                 [1].split(endParameter)[0])
+
+        return links
+
+    @staticmethod
+    async def serperSearch(serach):
+        res = Response()
         
-        
-        return  links
+        try:
+            url = "https://google.serper.dev/search"
+            payload = json.dumps({
+                "q": serach,
+                "gl": "tr",
+                "hl": "tr",
+                "autocorrect": True
+            })
+            headers = {
+                'X-API-KEY': config("API_SERPER_KEY"),
+                'Content-Type': 'application/json'
+            }
+
+            response = requests.post(url=url, data=payload, headers=headers)
+            
+            res.response=json.loads(response.text)["organic"]
+            res.responseCode=200
+        except:
+            res.response=await Resource.searchGoogle(serach)
+            res.responseCode=201
+
+        return res
+
